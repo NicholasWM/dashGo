@@ -12,6 +12,7 @@ import {
     Td,
     Checkbox,
     Text,
+    useBreakpointValue,
 } from '@chakra-ui/react'
 import { RiAddLine, RiPencilLine } from 'react-icons/ri'
 import { Header } from '../../components/Form/Header'
@@ -19,6 +20,10 @@ import { Pagination } from '../../components/Form/Pagination'
 import { SideBar } from '../../components/Form/Sidebar'
 
 export default function UserList(){
+    const isWideVersion = useBreakpointValue({
+        base: false, // Padrão é false
+        lg:true // Large para frente true
+    })
     return (
         <Box>
             <Header/>
@@ -63,19 +68,19 @@ export default function UserList(){
                     > 
                         <Thead>
                             <Tr>
-                                <Th px="6" color="gray.300" width="8">
+                                <Th px={["4", "4","6"]} color="gray.300" width="8">
                                     <Checkbox 
                                         colorScheme="pink"
                                     />
                                 </Th>
                                 <Th>Usuário</Th>
-                                <Th>Data de Cadastro</Th>
+                                {isWideVersion && (<Th>Data de Cadastro</Th>)}
                                 <Th width="8"></Th>
                             </Tr>
                         </Thead>
                         <Tbody>
                             <Tr>
-                                <Td px="6" color="gray.300" width="8">
+                                <Td px={["4", "4","6"]} color="gray.300" width="8">
                                     <Checkbox 
                                         colorScheme="pink"
                                     />
@@ -86,17 +91,19 @@ export default function UserList(){
                                         <Text fontSize="sm" color="gray.300">nwm@gmail.com</Text>
                                     </Box>
                                 </Td>
-                                <Td>04 de Abril de 2021</Td>
+                                {isWideVersion && (<Td>04 de Abril de 2021</Td>)}
                                 <Td>
-                                    <Button 
-                                        as="a"
-                                        size="sm"
-                                        fontSize="16"
-                                        colorScheme="purple"
-                                        leftIcon={<Icon as={RiPencilLine}/>}
-                                    >
-                                        Editar
-                                    </Button>
+                                    {isWideVersion && (
+                                        <Button 
+                                            as="a"
+                                            size="sm"
+                                            fontSize="16"
+                                            colorScheme="purple"
+                                            leftIcon={<Icon as={RiPencilLine}/>}
+                                        >
+                                            Editar
+                                        </Button>
+                                    )}
                                 </Td>
                             </Tr>
                         </Tbody>
