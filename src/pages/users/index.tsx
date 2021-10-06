@@ -14,10 +14,12 @@ import {
     Text,
     useBreakpointValue,
 } from '@chakra-ui/react'
+import Link from 'next/link'
 import { RiAddLine, RiPencilLine } from 'react-icons/ri'
 import { Header } from '../../components/Form/Header'
 import { Pagination } from '../../components/Form/Pagination'
 import { SideBar } from '../../components/Form/Sidebar'
+
 
 export default function UserList(){
     const isWideVersion = useBreakpointValue({
@@ -52,15 +54,17 @@ export default function UserList(){
                         >
                             Usuários
                         </Heading>
-                        <Button 
-                            as="a"
-                            size="sm"
-                            fontSize="20"
-                            colorScheme="pink"
-                            leftIcon={<Icon as={RiAddLine}/>}
-                        >
-                            Criar novo
-                        </Button>
+                        <Link href="/users/create" passHref>
+                            <Button 
+                                as="a"
+                                size="sm"
+                                fontSize="20"
+                                colorScheme="pink"
+                                leftIcon={<Icon as={RiAddLine}/>}
+                            >
+                                Criar novo
+                            </Button>
+                        </Link>
                     </Flex>
 
                     <Table
@@ -94,15 +98,17 @@ export default function UserList(){
                                 {isWideVersion && (<Td>04 de Abril de 2021</Td>)}
                                 <Td>
                                     {isWideVersion && (
-                                        <Button 
-                                            as="a"
-                                            size="sm"
-                                            fontSize="16"
-                                            colorScheme="purple"
-                                            leftIcon={<Icon as={RiPencilLine}/>}
-                                        >
-                                            Editar
-                                        </Button>
+                                        <Link href="/users/edit" passHref>
+                                            <Button 
+                                                as="a"
+                                                size="sm"
+                                                fontSize="16"
+                                                colorScheme="purple"
+                                                leftIcon={<Icon as={RiPencilLine}/>}
+                                                >
+                                                Editar
+                                            </Button>
+                                        </Link>
                                     )}
                                 </Td>
                             </Tr>
