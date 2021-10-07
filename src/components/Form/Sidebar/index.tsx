@@ -1,29 +1,40 @@
 import {
     Box,
-    Stack
+    Drawer,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
+    DrawerHeader,
+    DrawerBody,
+    useBreakpointValue,
 } from '@chakra-ui/react'
-import {
-    RiContactsLine,
-    RiDashboardLine,
-    RiGitMergeLine,
-    RiInputMethodLine 
-} from 'react-icons/ri'
-import { NavLink } from './NavLink'
-import { NavSection } from './NavSection'
+import { useSideBarDrawer } from '../../../contexts/SiderBarDrawerContext'
+import { SideBarNav } from './SideBarNav'
 
 export function SideBar(){
+    const {isOpen, onClose} = useSideBarDrawer()
+    const isDrawerSidebar = useBreakpointValue({
+        base: true,
+        lg: false,
+    })
+    if(isDrawerSidebar){
+        return (
+            <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+                <DrawerOverlay>
+                    <DrawerContent bg="gray.800" padding="4">
+                        <DrawerCloseButton mt="6"/>
+                        <DrawerHeader>Navegação</DrawerHeader>
+                        <DrawerBody>
+                            <SideBarNav/>
+                        </DrawerBody>
+                    </DrawerContent>
+                </DrawerOverlay>
+            </Drawer>
+        )
+    }
     return (
         <Box as="aside" w="64" mr="8">
-            <Stack spacing="12" align="flex-start">
-                <NavSection title="GERAL">
-                    <NavLink children='Dashboard' icon={RiDashboardLine}/>
-                    <NavLink children='Usuarios' icon={RiContactsLine}/>
-                </NavSection>
-                <NavSection title="AUTOMAÇÃO">
-                    <NavLink children='Formulários' icon={RiInputMethodLine}/>
-                    <NavLink children='Automação' icon={RiGitMergeLine}/>
-                </NavSection>
-            </Stack>
+            <SideBarNav/>
         </Box>
     )
 }
