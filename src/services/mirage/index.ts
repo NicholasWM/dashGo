@@ -1,4 +1,4 @@
-import { createServer, Factory, Model, Response } from 'miragejs'
+import { ActiveModelSerializer, createServer, Factory, Model, Response } from 'miragejs'
 import faker from 'faker'
 type User = {
     name:string;
@@ -8,6 +8,9 @@ type User = {
 
 export function makeServer(){
     const server = createServer({
+        serializers: {
+            application: ActiveModelSerializer, // Permite enviar dados de relacionamento tudo em uma requisição só
+        },
         models: {
             user: Model.extend<Partial<User>>({} as User) // Contem os campos mas n todos(Partial)
         },
@@ -32,6 +35,7 @@ export function makeServer(){
         routes(){
             this.namespace = 'api'
             this.timing = 750 // Tempo de delay pra chamada da API, bom pra testar os loadings da aplicação
+            this.get('/users/:id')
             this.get('/users', function(schema, request){
                 // Paginação
                 const {page=1, per_page=10} = request.queryParams
