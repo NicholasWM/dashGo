@@ -22,7 +22,6 @@ import { Pagination } from '../../components/Form/Pagination'
 import { SideBar } from '../../components/Form/Sidebar'
 import { useUsers } from '../../services/hooks/useUsers'
 
-
 export default function UserList() {
     const { data, isLoading, error, isFetching } = useUsers()
     const isWideVersion = useBreakpointValue({
