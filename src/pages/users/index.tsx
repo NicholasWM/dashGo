@@ -13,22 +13,26 @@ import {
     Checkbox,
     Text,
     useBreakpointValue,
+    Spinner,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { RiAddLine, RiPencilLine } from 'react-icons/ri'
 import { Header } from '../../components/Form/Header'
 import { Pagination } from '../../components/Form/Pagination'
 import { SideBar } from '../../components/Form/Sidebar'
+import { useUsers } from '../../services/hooks/useUsers'
 
 
-export default function UserList(){
+export default function UserList() {
+    const { data, isLoading, error, isFetching } = useUsers()
     const isWideVersion = useBreakpointValue({
         base: false, // Padrão é false
-        lg:true // Large para frente true
+        lg: true // Large para frente true
     })
+
     return (
         <Box>
-            <Header/>
+            <Header />
             <Flex
                 width="100%"
                 may="6"
@@ -36,8 +40,8 @@ export default function UserList(){
                 mx="auto"
                 px="6"
             >
-                <SideBar/>
-                <Box 
+                <SideBar />
+                <Box
                     flex="1"
                     borderRadius={8}
                     bg="gray.800"
@@ -52,69 +56,82 @@ export default function UserList(){
                             size="lg"
                             fontWeight="normal"
                         >
-                            Usuários
+                            Usuários {!isLoading && isFetching && (<Spinner/>)}
                         </Heading>
                         <Link href="/users/create" passHref>
-                            <Button 
+                            <Button
                                 as="a"
                                 size="sm"
                                 fontSize="20"
                                 colorScheme="pink"
-                                leftIcon={<Icon as={RiAddLine}/>}
+                                leftIcon={<Icon as={RiAddLine} />}
                             >
                                 Criar novo
                             </Button>
                         </Link>
                     </Flex>
-
-                    <Table
-                        colorScheme="whiteAlpha"
-                    > 
-                        <Thead>
-                            <Tr>
-                                <Th px={["4", "4","6"]} color="gray.300" width="8">
-                                    <Checkbox 
-                                        colorScheme="pink"
-                                    />
-                                </Th>
-                                <Th>Usuário</Th>
-                                {isWideVersion && (<Th>Data de Cadastro</Th>)}
-                                <Th width="8"></Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td px={["4", "4","6"]} color="gray.300" width="8">
-                                    <Checkbox 
-                                        colorScheme="pink"
-                                    />
-                                </Td>
-                                <Td>
-                                    <Box>
-                                        <Text fontWeight="bold">Nicholas</Text>
-                                        <Text fontSize="sm" color="gray.300">nwm@gmail.com</Text>
-                                    </Box>
-                                </Td>
-                                {isWideVersion && (<Td>04 de Abril de 2021</Td>)}
-                                <Td>
-                                    {isWideVersion && (
-                                        <Link href="/users/edit" passHref>
-                                            <Button 
-                                                as="a"
-                                                size="sm"
-                                                fontSize="16"
-                                                colorScheme="purple"
-                                                leftIcon={<Icon as={RiPencilLine}/>}
-                                                >
-                                                Editar
-                                            </Button>
-                                        </Link>
-                                    )}
-                                </Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
-                    <Pagination/>
+                    {isLoading ? (
+                        <Flex justify="center">
+                            <Spinner />
+                        </Flex>
+                    ) : error ? (
+                        <Flex justify="center">
+                            <Text>Falha ao obter dados dos usuarios.</Text>
+                        </Flex>
+                    ) : (
+                        <>
+                            <Table
+                                colorScheme="whiteAlpha"
+                            >
+                                <Thead>
+                                    <Tr>
+                                        <Th px={["4", "4", "6"]} color="gray.300" width="8">
+                                            <Checkbox
+                                                colorScheme="pink"
+                                            />
+                                        </Th>
+                                        <Th>Usuário</Th>
+                                        {isWideVersion && (<Th>Data de Cadastro</Th>)}
+                                        <Th width="8"></Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {data?.map((user) => (
+                                        <Tr key={user?.id}>
+                                        <Td px={["4", "4", "6"]} color="gray.300" width="8">
+                                            <Checkbox
+                                                colorScheme="pink"
+                                            />
+                                        </Td>
+                                        <Td>
+                                            <Box>
+                                                <Text fontWeight="bold">{user?.name}</Text>
+                                                <Text fontSize="sm" color="gray.300">{user?.email}</Text>
+                                            </Box>
+                                        </Td>
+                                        {isWideVersion && (<Td>{user?.createdAt}</Td>)}
+                                        <Td>
+                                            {isWideVersion && (
+                                                <Link href="/users/edit" passHref>
+                                                    <Button
+                                                        as="a"
+                                                        size="sm"
+                                                        fontSize="16"
+                                                        colorScheme="purple"
+                                                        leftIcon={<Icon as={RiPencilLine} />}
+                                                    >
+                                                        Editar
+                                                    </Button>
+                                                </Link>
+                                            )}
+                                        </Td>
+                                    </Tr>
+                                    ))}
+                                </Tbody>
+                            </Table>
+                            <Pagination />
+                        </>
+                    )}
                 </Box>
             </Flex>
         </Box>
