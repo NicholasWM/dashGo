@@ -22,7 +22,6 @@ import { Pagination } from '../../components/Form/Pagination'
 import { SideBar } from '../../components/Form/Sidebar'
 import { useUsers } from '../../services/hooks/useUsers'
 
-
 export default function UserList() {
     const { data, isLoading, error, isFetching } = useUsers()
     const isWideVersion = useBreakpointValue({
@@ -129,7 +128,11 @@ export default function UserList() {
                                     ))}
                                 </Tbody>
                             </Table>
-                            <Pagination />
+                            <Pagination 
+                                totalCountOfRegisters={200}
+                                currentPage={5}
+                                onPageChange={()=>{}}
+                            />
                         </>
                     )}
                 </Box>
