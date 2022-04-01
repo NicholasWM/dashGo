@@ -15,7 +15,7 @@ interface NavLinkProps extends ChakraLinkProps{
 
 export function NavLink({children, icon, href, ...rest}:NavLinkProps){
     return (
-        <ActiveLink href={href} passHref>
+        <ActiveLink href={href} passHref shouldMatchExactHref={false}>
             <ChakraLink display="flex" align="center" {...rest}>
                 <Icon as={icon} fontSize="20"/>
                 <Text marginLeft="4" fontWeight="medium">{children}</Text>
