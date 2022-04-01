@@ -59,7 +59,7 @@ const options = {
             opacityTo: 0.3,
         }
     }
-}
+} as ApexCharts.ApexOptions
 const series = [
     {name: 'series1', data:[31, 231, 20, 230, 90, 9, 29]}
 ]
